@@ -16,12 +16,10 @@ function App() {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   useEffect(() => {
-    console.log("list changed");
     setFilteredList(filterListByMonth(list, currentMonth));
   }, [list, currentMonth]);
 
   const addItem = (item: Item) => {
-    console.log(item);
     setList([...list, item]);
   };
 

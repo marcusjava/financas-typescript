@@ -20,6 +20,12 @@ export const items: Item[] = [
     value: 28,
   },
   {
+    date: new Date(2022, 2, 15),
+    category: "food",
+    title: "McDonalds",
+    value: 50,
+  },
+  {
     date: new Date(2022, 2, 16),
     category: "rent",
     title: "Aluguel Apt",

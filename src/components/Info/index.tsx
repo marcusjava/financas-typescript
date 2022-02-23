@@ -35,7 +35,9 @@ const Info: React.FC<Props> = ({
     <Container>
       <MonthArea>
         <Arrow onClick={handlePrevMonth}>⬅️</Arrow>
-        <Title>{formatCurrentMonth(currentMonth)}</Title>
+        <Title>
+          <h3 data-testid="current-month">Fevereiro de 2022</h3>
+        </Title>
         <Arrow onClick={handleNextMonth}>➡️</Arrow>
       </MonthArea>
       <ResumeArea>

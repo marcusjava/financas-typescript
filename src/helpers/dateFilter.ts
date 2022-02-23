@@ -23,7 +23,7 @@ export const getCurrentMonth = () => {
 export const formatCurrentMonth = (currentMonth: string): string => {
   let [year, month] = currentMonth.split("-");
 
-  return `${months[parseInt(month) - 1]} de ${year} `;
+  return `${months[parseInt(month) - 1]} de ${year}`;
 };
 
 export const formatDate = (date: Date): string => {

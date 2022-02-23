@@ -43,7 +43,7 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
     <Container onSubmit={handleSubmit}>
       <Input
         type="date"
-        placeholder="dd-mm-yyyy"
+        data-testid="input-date"
         required
         value={dateField}
         onChange={(e) => setDateField(e.target.value)}
