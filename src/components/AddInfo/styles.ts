@@ -11,6 +11,12 @@ export const Container = styled.form`
   text-align: center;
   height: 90px;
   padding: 0 25px;
+  flex-wrap: wrap;
+  @media (max-width: 956px) {
+    height: 70%;
+    flex-direction: column;
+    padding: 50px 0;
+  }
 `;
 
 export const Input = styled.input`

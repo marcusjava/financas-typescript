@@ -9,6 +9,9 @@ export const Container = styled.div`
   margin-bottom: 30px;
   display: flex;
   align-items: center;
+  @media (max-width: 956px) {
+    flex-direction: column;
+  }
 `;
 
 export const MonthArea = styled.div`
