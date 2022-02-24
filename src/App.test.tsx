@@ -1,7 +1,12 @@
-import React from "react";
 import { render, screen, within } from "@testing-library/react";
 import App from "./App";
-import { getCurrentMonth, formatCurrentMonth } from "./helpers/dateFilter";
+import {
+  getCurrentMonth,
+  formatCurrentMonth,
+  getPrevMonth,
+  getNextMonth,
+} from "./helpers/dateFilter";
+import userEvent from "@testing-library/user-event";
 
 describe("Should renders items correctly", () => {
   test("show items on screen", () => {
@@ -20,7 +25,7 @@ describe("Should renders items correctly", () => {
     expect(screen.getByText(/Titulo/i)).toBeInTheDocument();
     expect(screen.getByText(/Valor/i)).toBeInTheDocument();
   });
-  test("should render current formated current month", () => {
+  test("should render current month formated", () => {
     render(<App />);
     const currentMonth = getCurrentMonth();
     const formatedCurrentMonth = formatCurrentMonth(currentMonth);
@@ -38,3 +43,26 @@ describe("Should renders items correctly", () => {
     expect(salaries[0]).toHaveStyle("background-color: green");
   });
 });
+
+describe("Testing Info Area", () => {
+  test("should click on Prev month button", () => {
+    render(<App />);
+    const currentMonth = getCurrentMonth();
+    const prevMonth = getPrevMonth(currentMonth);
+    const formatedPrevMonth = formatCurrentMonth(prevMonth);
+    const prevButton = screen.getByText("⬅️");
+    userEvent.click(prevButton);
+    expect(screen.getByText(formatedPrevMonth)).toBeInTheDocument();
+  });
+  test("should click on Next month button", () => {
+    render(<App />);
+    const currentMonth = getCurrentMonth();
+    const nextMonth = getNextMonth(currentMonth);
+    const formatedNextMonth = formatCurrentMonth(nextMonth);
+    const nextButton = screen.getByText("➡️");
+    userEvent.click(nextButton);
+    expect(screen.getByText(formatedNextMonth)).toBeInTheDocument();
+  });
+});
+
+describe("testing add area", () => {});

@@ -1,5 +1,9 @@
 import React from "react";
-import { formatCurrentMonth } from "../../helpers/dateFilter";
+import {
+  formatCurrentMonth,
+  getNextMonth,
+  getPrevMonth,
+} from "../../helpers/dateFilter";
 import ResumeItem from "../ResumeItem";
 
 import { Container, MonthArea, ResumeArea, Arrow, Title } from "./styles";
@@ -18,17 +22,11 @@ const Info: React.FC<Props> = ({
   expense,
 }) => {
   const handlePrevMonth = () => {
-    let [year, month] = currentMonth.split("-");
-    let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    onMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
+    onMonthChange(getPrevMonth(currentMonth));
   };
 
   const handleNextMonth = () => {
-    let [year, month] = currentMonth.split("-");
-    let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    onMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
+    onMonthChange(getNextMonth(currentMonth));
   };
 
   return (
@@ -36,7 +34,9 @@ const Info: React.FC<Props> = ({
       <MonthArea>
         <Arrow onClick={handlePrevMonth}>⬅️</Arrow>
         <Title>
-          <h3 data-testid="current-month">Fevereiro de 2022</h3>
+          <h3 data-testid="current-month">
+            {formatCurrentMonth(currentMonth)}
+          </h3>
         </Title>
         <Arrow onClick={handleNextMonth}>➡️</Arrow>
       </MonthArea>

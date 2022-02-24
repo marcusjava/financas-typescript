@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-export const Container = styled.form`
+export const Container = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin: 25px 0;
-  gap: 15px;
   background-color: #fff;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 10px;
@@ -17,6 +18,24 @@ export const Container = styled.form`
     flex-direction: column;
     padding: 50px 0;
   }
+`;
+
+export const Error = styled.span`
+  color: red;
+  font-weight: bold;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  test-align: center;
+  gap: 15px;
 `;
 
 export const Input = styled.input`

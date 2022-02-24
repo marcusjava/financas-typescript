@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { Item } from "../../types/Item";
 import { categories } from "../../seed/categories";
 
-import { Container, Input, Button, CategoriesSelect } from "./styles";
+import {
+  Container,
+  Input,
+  Button,
+  CategoriesSelect,
+  Form,
+  Error,
+  InputContainer,
+} from "./styles";
 
 type categoryOpts = "food" | "rent" | "salary";
 
@@ -15,13 +23,33 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
   const [titleField, setTitleField] = useState("");
   const [categoryField, setCategoryField] = useState<categoryOpts>("food");
   const [valueField, setValueField] = useState(0);
+  const [errors, setErrors] = useState({
+    dateField: false,
+    titleField: false,
+    valueField: false,
+  });
 
   let categoryKeys: string[] = Object.keys(categories);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const [year, month, day] = dateField.split("-");
+
+    if (isNaN(new Date(dateField).getTime())) {
+      setErrors({ ...errors, dateField: true });
+      return;
+    }
+
+    if (titleField === "") {
+      setErrors({ ...errors, titleField: true });
+      return;
+    }
+
+    if (valueField <= 0) {
+      setErrors({ ...errors, valueField: true });
+      return;
+    }
+
     const item: Item = {
       date: new Date(+year, +month, +day),
       title: titleField,
@@ -38,40 +66,55 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
     setTitleField("");
     setCategoryField("food");
     setValueField(0);
+    setErrors({
+      dateField: false,
+      titleField: false,
+      valueField: false,
+    });
   };
   return (
-    <Container onSubmit={handleSubmit}>
-      <Input
-        type="date"
-        data-testid="input-date"
-        required
-        value={dateField}
-        onChange={(e) => setDateField(e.target.value)}
-      />
-      <Input
-        type="text"
-        placeholder="Insira o titulo"
-        required
-        value={titleField}
-        onChange={(e) => setTitleField(e.target.value)}
-      />
-      <CategoriesSelect
-        onChange={(e) => setCategoryField(e.target.value as categoryOpts)}
-        value={categoryField}
-      >
-        {categoryKeys.map((item) => (
-          <option value={item} key={item}>
-            {categories[item].title}
-          </option>
-        ))}
-      </CategoriesSelect>
-      <Input
-        type="number"
-        required
-        value={valueField}
-        onChange={(e) => setValueField(parseFloat(e.target.value))}
-      />
-      <Button type="submit">Salvar</Button>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <InputContainer>
+          <Input
+            type="date"
+            data-testid="input-date"
+            value={dateField}
+            onChange={(e) => setDateField(e.target.value)}
+          />
+          {errors.dateField && <Error>Campo obrigatorio </Error>}
+        </InputContainer>
+        <InputContainer>
+          <Input
+            type="text"
+            placeholder="Insira o titulo"
+            value={titleField}
+            onChange={(e) => setTitleField(e.target.value)}
+          />
+          {errors.titleField && <Error>Campo obrigatorio </Error>}
+        </InputContainer>
+
+        <CategoriesSelect
+          onChange={(e) => setCategoryField(e.target.value as categoryOpts)}
+          value={categoryField}
+        >
+          {categoryKeys.map((item) => (
+            <option value={item} key={item}>
+              {categories[item].title}
+            </option>
+          ))}
+        </CategoriesSelect>
+
+        <InputContainer>
+          <Input
+            type="number"
+            value={valueField}
+            onChange={(e) => setValueField(parseFloat(e.target.value))}
+          />
+          {errors.valueField && <Error>Campo obrigatorio </Error>}
+        </InputContainer>
+        <Button type="submit">Salvar</Button>
+      </Form>
     </Container>
   );
 };

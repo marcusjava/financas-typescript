@@ -11,7 +11,9 @@ const ResumeItem: React.FC<Props> = ({ title, value, color }) => {
   return (
     <Container>
       <Title>{title}</Title>
-      <Value color={color}>R$ {value}</Value>
+      <Value data-testid={title.toLowerCase()} color={color}>
+        R$ {value}
+      </Value>
     </Container>
   );
 };

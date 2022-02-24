@@ -20,6 +20,20 @@ export const getCurrentMonth = () => {
   return `${now.getFullYear()}-${now.getMonth() + 1}`;
 };
 
+export const getPrevMonth = (currentMonth: string) => {
+  let [year, month] = currentMonth.split("-");
+  let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  return `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`;
+};
+
+export const getNextMonth = (currentMonth: string) => {
+  let [year, month] = currentMonth.split("-");
+  let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  return `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`;
+};
+
 export const formatCurrentMonth = (currentMonth: string): string => {
   let [year, month] = currentMonth.split("-");
 
