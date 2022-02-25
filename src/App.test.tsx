@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, fireEvent } from "@testing-library/react";
 import App from "./App";
 import {
   getCurrentMonth,
@@ -65,4 +65,54 @@ describe("Testing Info Area", () => {
   });
 });
 
-describe("testing add area", () => {});
+describe("testing add area", () => {
+  test("testing date required field", () => {
+    render(<App />);
+    const titleField = screen.getByPlaceholderText("Insira o titulo");
+    const valueField = screen.getByDisplayValue("0");
+    const button = screen.getByRole("button", { name: "Salvar" });
+    userEvent.type(titleField, "teste");
+    userEvent.type(valueField, "1000");
+    userEvent.click(button);
+    expect(screen.getByText("Campo obrigatorio")).toBeInTheDocument();
+  });
+  test("testing title required field", () => {
+    render(<App />);
+    const dateField = screen.getByTestId("input-date");
+    const valueField = screen.getByDisplayValue("0");
+    const button = screen.getByRole("button", { name: "Salvar" });
+    userEvent.type(dateField, "25/02/2022");
+    userEvent.type(valueField, "1000");
+    userEvent.click(button);
+    expect(screen.getByText("Campo obrigatorio")).toBeInTheDocument();
+  });
+  test("testing value required field", () => {
+    render(<App />);
+    const dateField = screen.getByTestId("input-date");
+    const titleField = screen.getByPlaceholderText("Insira o titulo");
+    const valueField = screen.getByDisplayValue("0");
+    const button = screen.getByRole("button", { name: "Salvar" });
+    userEvent.type(dateField, "25/02/2022");
+    userEvent.type(titleField, "teste");
+    userEvent.type(valueField, "0");
+    userEvent.click(button);
+    expect(screen.getByText("Campo obrigatorio")).toBeInTheDocument();
+  });
+  test("should insert new item", () => {
+    render(<App />);
+    const dateField = screen.getByTestId("input-date");
+    const titleField = screen.getByPlaceholderText("Insira o titulo");
+    const valueField = screen.getByDisplayValue("0");
+    const select = screen.getByRole("combobox");
+    const button = screen.getByRole("button", { name: "Salvar" });
+    userEvent.clear(dateField);
+    fireEvent.change(dateField, { value: "25/02/2022" });
+    userEvent.type(titleField, "Giraffas");
+    userEvent.selectOptions(select, "rent");
+    userEvent.clear(valueField);
+    userEvent.type(valueField, "50");
+    userEvent.click(button);
+    //don't work because userEvent does not work with input date(no set value)'
+    screen.debug();
+  });
+});

@@ -22,7 +22,7 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
   const [dateField, setDateField] = useState("");
   const [titleField, setTitleField] = useState("");
   const [categoryField, setCategoryField] = useState<categoryOpts>("food");
-  const [valueField, setValueField] = useState(0);
+  const [valueField, setValueField] = useState("0");
   const [errors, setErrors] = useState({
     dateField: false,
     titleField: false,
@@ -45,7 +45,7 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
       return;
     }
 
-    if (valueField <= 0) {
+    if (parseFloat(valueField) <= 0) {
       setErrors({ ...errors, valueField: true });
       return;
     }
@@ -54,7 +54,7 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
       date: new Date(+year, +month, +day),
       title: titleField,
       category: categoryField,
-      value: valueField,
+      value: parseFloat(valueField),
     };
 
     addItem(item);
@@ -65,7 +65,7 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
     setDateField("");
     setTitleField("");
     setCategoryField("food");
-    setValueField(0);
+    setValueField("0");
     setErrors({
       dateField: false,
       titleField: false,
@@ -107,9 +107,9 @@ const AddInfo: React.FC<Props> = ({ addItem }) => {
 
         <InputContainer>
           <Input
-            type="number"
+            type="text"
             value={valueField}
-            onChange={(e) => setValueField(parseFloat(e.target.value))}
+            onChange={(e) => setValueField(e.target.value)}
           />
           {errors.valueField && <Error>Campo obrigatorio </Error>}
         </InputContainer>
